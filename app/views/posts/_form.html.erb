@@ -11,24 +11,29 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :photo %>
+    <% unless post.new_record? %>
+      <p>
+        <img src="<%= post.photo.image.url(:thumb) rescue nil%>">
+      </p>
+    <% end %>
     <%= form.fields_for :photo do |photo_f| %>
-      <%= photo_f.file_field :image %>
+      <%= photo_f.file_field :image, class: "form-control-file" %>
     <% end %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
   </div>
 <% end %>
