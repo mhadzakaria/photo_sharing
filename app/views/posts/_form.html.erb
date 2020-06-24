@@ -21,6 +21,13 @@
     <%= form.text_area :description %>
   </div>
 
+  <div class="field">
+    <%= form.label :photo %>
+    <%= form.fields_for :photo do |photo_f| %>
+      <%= photo_f.file_field :image %>
+    <% end %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
