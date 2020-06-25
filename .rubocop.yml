@@ -1,0 +1,35 @@
+require:
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 2.6
+  NewCops: enable
+  Exclude:
+    - vendor/**/*
+    - config/**/*
+    - db/**/*
+    - bin/**/*
+    - tmp/**/*
+    - node_modules/**/*
+
+Layout/LineLength:
+  Max: 110
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Metrics/BlockLength:
+  Enabled: true
+  Max: 200
+
+Style/Documentation:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Security/Eval:
+  Enabled: false
