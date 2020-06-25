@@ -4,10 +4,10 @@
   </div>
 <% end %>
 <div class="row justify-content-md-center">
-  <div class="col col-md-4">
+  <div class="col col-md-6">
     <hr>
     <% @posts.each do |post| %>
-      <%= render 'posts/partials/details', post: post, link_action: false %>
+      <%= render 'posts/partials/details', post: post, full_version: false, new_comment: @new_comment %>
       <hr>
     <% end %>
   </div>

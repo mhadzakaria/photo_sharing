@@ -2,9 +2,11 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: [:show, :edit, :update, :destroy, :up_vote, :down_vote]
   before_action :make_user_owner, only: %i[edit update destroy]
+  before_action :set_comment, only: [:show]
 
   def index
     @posts = Post.order(created_at: :desc)
+    @new_comment = Comment.new()
   end
 
   def show; end
@@ -65,6 +67,11 @@ class PostsController < ApplicationController
   private
     def set_post
       @post = Post.find(params[:id])
+    end
+
+    def set_comment
+      @new_comment = Comment.new()
+      @comments = @post.comments
     end
 
     def post_params

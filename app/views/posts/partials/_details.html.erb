@@ -12,12 +12,34 @@
       <% else%>
         <%= link_to 'Like', up_vote_post_path(post) %>
       <% end%>
-      (<%= post.votes_for.size %>)
+      (<%= post.votes_for.size %>) | 
+      <%= link_to 'Comment', post %> (<%= post.comments.size %>)
     </p>
-    <% if link_action && @post.user.eql?(current_user) %>
+
+    <% if full_version && @post.user.eql?(current_user) %>
       <p class="card-text">
         <%= link_to 'Edit', edit_post_path(@post) %> | <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %> | <%= link_to 'Back', posts_path %>
       </p>
     <% end %>
+    <!-- COMMENT SECTION start -->
+    <% if full_version  %>
+      <div class="form-group row">
+        <% comments.each do |comment| %>
+          <div class="col-sm-12 mb-2">
+            <input type="text" class='form-control' readonly value="<%= comment.content %>">
+          </div>
+        <% end %>
+      </div>
+      <%= form_with(model: new_comment, local: true) do |form| %>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <%= form.hidden_field :post_id, value: post.id %>
+            <%= form.text_field :content, class: 'form-control', placeholder: 'Your comments...', autocomplete: 'off' %>
+          </div>
+          <%= form.submit 'submit', class: 'btn btn-info col-sm-2 col-form-label' %>
+        </div>
+      <% end %>
+    <% end %>
+    <!-- COMMENT SECTION end -->
   </div>
 </div>
