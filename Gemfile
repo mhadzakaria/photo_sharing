@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 
 gem "paperclip", "~> 6.0.0"
 gem 'devise', '~> 4.7', '>= 4.7.2'
+gem 'acts_as_votable', '~> 0.12.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

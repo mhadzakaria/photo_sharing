@@ -5,16 +5,9 @@
 <% end %>
 <div class="row justify-content-md-center">
   <div class="col col-md-4">
+    <hr>
     <% @posts.each do |post| %>
-      <div class="card">
-        <%= link_to post do %>
-          <img class="card-img-top" src="<%= post.photo.image.url %>" alt="Card image cap">
-        <% end %>
-        <div class="card-body">
-          <h5 class="card-title"><%= post.title %></h5>
-          <p class="card-text"><%= post.description %></p>
-        </div>
-      </div>
+      <%= render 'posts/partials/details', post: post, link_action: false %>
       <hr>
     <% end %>
   </div>

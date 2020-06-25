@@ -1,32 +1,23 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :up_vote, :down_vote]
+  before_action :make_user_owner, only: %i[edit update destroy]
 
-  # GET /posts
-  # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc)
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
-  def show
-  end
+  def show; end
 
-  # GET /posts/new
   def new
     @post = Post.new
     @post.build_photo
   end
 
-  # GET /posts/1/edit
-  def edit
-  end
+  def edit; end
 
-  # POST /posts
-  # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
 
     respond_to do |format|
       if @post.save
@@ -39,8 +30,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
   def update
     respond_to do |format|
       if @post.update(post_params)
@@ -53,8 +42,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
   def destroy
     @post.destroy
     respond_to do |format|
@@ -63,15 +50,31 @@ class PostsController < ApplicationController
     end
   end
 
+  def up_vote
+    @post.liked_by(current_user)
+
+    redirect_to request.referer, notice: 'Like successfully!'
+  end
+
+  def down_vote
+    @post.unliked_by(current_user)
+
+    redirect_to request.referer, notice: 'Unlike successfully!'
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :description,
                                    photo_attributes: {})
+    end
+
+    def make_user_owner
+      unless @post.user.eql?(current_user)
+        redirect_to root_url, notice: "You're not allowed to access this page" and return
+      end
     end
 end
